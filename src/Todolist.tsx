@@ -54,7 +54,7 @@ export const Todolist = ({
                 <Button title={'+'} onClick={addTaskHandler}/>
             </div>
             {tasks.length === 0 ? (
-                <p>Тасок нет</p>
+                <p>Тасок нет !</p>
             ) : (
                 <ul>
                     {tasks.map(task => {
