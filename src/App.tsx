@@ -9,7 +9,7 @@ export type TaskType = {
     title: string,
     isDone: boolean,
 }
-export type FilterValuesType = 'all' | 'active' | 'completed'
+export type   FilterValuesType = 'all' | 'active' | 'completed'
 
 function App() {
     const [tasks, setTasks] = useState(
