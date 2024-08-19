@@ -4,14 +4,16 @@ import React, {ChangeEvent, useState} from "react";
 
 
 export type TodolistType = {
+    todolistId: string,
     title: string
     tasks: Array<TaskType>
     date?: string
-    removeTask: (taskId: string) => void
-    changeFilter: (filter: FilterValuesType) => void
-    addTask: (taskTitle: string) => void
-    changeTaskStatus: (taskId: string, newStatusValue: boolean) => void
+    removeTask: (taskId: string, todoId: string) => void
+    changeFilter: (filter: FilterValuesType, todolistId: string) => void
+    addTask: (taskTitle: string, todoId: string) => void
+    changeTaskStatus: (taskId: string, newStatusValue: boolean, todoId: string) => void
     filter: FilterValuesType
+    removeTodolist: (todoId: string) => void
 }
 
 
@@ -24,13 +26,15 @@ export const Todolist = ({
                              addTask,
                              changeTaskStatus,
                              filter,
+                             todolistId,
+                             removeTodolist,
                          }: TodolistType) => {
 
     const [taskTitle, setTaskTitle] = useState("")
     const [error, setError] = useState<string | null>(null)
     const addTaskHandler = () => {
         if (taskTitle.trim() !== '') {
-            addTask(taskTitle.trim())
+            addTask(taskTitle.trim(), todolistId)
             setTaskTitle('')
         } else {
             setError('Title is required')
@@ -49,13 +53,24 @@ export const Todolist = ({
     }
 
     const changeFilterTasksHandler = (filter: FilterValuesType) => {
-        changeFilter(filter)
+        changeFilter(filter, todolistId)
     }
+
+    const removeTodolistHandler = () => {
+        removeTodolist(todolistId)
+    }
+
+
 
 
     return (
         <div>
-            <h3>{title}</h3>
+            <div className={'todolist-title-container'}>
+                <h3>{title}</h3>
+                <Button title={'x'} onClick={removeTodolistHandler} />
+            </div>
+
+
             <div>
                 <input
                     className={error ? 'error' : ''}
@@ -72,12 +87,12 @@ export const Todolist = ({
                 <ul>
                     {tasks.map(task => {
                         const removeTaskHandler = () => {
-                            removeTask(task.id)
+                            removeTask(task.id, todolistId)
                         }
 
                         const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
                             const newStatusValue = e.currentTarget.checked
-                            changeTaskStatus(task.id, newStatusValue)
+                            changeTaskStatus(task.id, newStatusValue, todolistId)
                         }
 
                         return (
