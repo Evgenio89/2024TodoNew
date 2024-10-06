@@ -1,5 +1,8 @@
-import {Button} from "./Button";
+
 import React, {ChangeEvent, useState} from "react";
+import {Button} from "@mui/material";
+import { TextField } from '@mui/material';
+
 
 type AddItemFormType = {
     addItem: (title: string) => void;
@@ -33,14 +36,20 @@ export  const AddItemForm = ({addItem}: AddItemFormType) => {
 
     return (
         <div>
-            <input
-                className={error ? 'error' : ''}
+            <TextField
+                label={'Enter a title'}
+                variant={'outlined'}
                 value={itemTitle}
+                size={'small'}
+                error={!!error}
+                helperText={error}
                 onChange={changeItemTitleHandler}
                 onKeyUp={addItemOnKeyUpHandler}
             />
-            <Button title={'+'} onClick={addItemHandler}/>
-            {error && <div className={'error-message'}>{error}</div>}
+            {/*<Button title={'+'} onClick={addItemHandler}/>*/}
+            <Button variant="contained" onClick={addItemHandler}>
+                +
+            </Button>
         </div>
     )
 }
